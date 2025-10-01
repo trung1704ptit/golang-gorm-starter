@@ -7,6 +7,7 @@ import (
 	"app/controllers"
 	"app/initializers"
 	"app/routes"
+	"app/services"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
@@ -14,13 +15,13 @@ import (
 
 var (
 	server              *gin.Engine
-	AuthController      controllers.AuthController
+	AuthController      *controllers.AuthController
 	AuthRouteController routes.AuthRouteController
 
-	UserController      controllers.UserController
+	UserController      *controllers.UserController
 	UserRouteController routes.UserRouteController
 
-	PostController      controllers.PostController
+	PostController      *controllers.PostController
 	PostRouteController routes.PostRouteController
 )
 
@@ -32,13 +33,19 @@ func init() {
 
 	initializers.ConnectDB(&config)
 
-	AuthController = controllers.NewAuthController(initializers.DB)
+	// Initialize Services
+	authService := services.NewAuthService(initializers.DB)
+	userService := services.NewUserService(initializers.DB)
+	postService := services.NewPostService(initializers.DB)
+
+	// Initialize Controllers with Services
+	AuthController = controllers.NewAuthController(authService)
 	AuthRouteController = routes.NewAuthRouteController(AuthController)
 
-	UserController = controllers.NewUserController(initializers.DB)
+	UserController = controllers.NewUserController(userService)
 	UserRouteController = routes.NewRouteUserController(UserController)
 
-	PostController = controllers.NewPostController(initializers.DB)
+	PostController = controllers.NewPostController(postService)
 	PostRouteController = routes.NewRoutePostController(PostController)
 
 	server = gin.Default()
@@ -57,7 +64,7 @@ func main() {
 	server.Use(cors.New(corsConfig))
 
 	router := server.Group("/api")
-	router.GET("/health", func(ctx *gin.Context) {
+	router.GET("/healthchecker", func(ctx *gin.Context) {
 		message := "Welcome to Golang with Gorm and Postgres"
 		ctx.JSON(http.StatusOK, gin.H{"status": "success", "message": message})
 	})
