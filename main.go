@@ -4,11 +4,12 @@ import (
 	"log"
 	"net/http"
 
+	"app/controllers"
+	"app/initializers"
+	"app/routes"
+
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
-	"github.com/wpcodevo/golang-gorm-postgres/controllers"
-	"github.com/wpcodevo/golang-gorm-postgres/initializers"
-	"github.com/wpcodevo/golang-gorm-postgres/routes"
 )
 
 var (
@@ -50,13 +51,13 @@ func main() {
 	}
 
 	corsConfig := cors.DefaultConfig()
-	corsConfig.AllowOrigins = []string{"http://localhost:8000", config.ClientOrigin}
+	corsConfig.AllowOrigins = []string{"http://localhost:8000", "http://localhost:3000", "http://localhost:5173", config.ClientOrigin}
 	corsConfig.AllowCredentials = true
 
 	server.Use(cors.New(corsConfig))
 
 	router := server.Group("/api")
-	router.GET("/healthchecker", func(ctx *gin.Context) {
+	router.GET("/health", func(ctx *gin.Context) {
 		message := "Welcome to Golang with Gorm and Postgres"
 		ctx.JSON(http.StatusOK, gin.H{"status": "success", "message": message})
 	})

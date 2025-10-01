@@ -1,9 +1,10 @@
 package routes
 
 import (
+	"app/controllers"
+	"app/middleware"
+
 	"github.com/gin-gonic/gin"
-	"github.com/wpcodevo/golang-gorm-postgres/controllers"
-	"github.com/wpcodevo/golang-gorm-postgres/middleware"
 )
 
 type AuthRouteController struct {

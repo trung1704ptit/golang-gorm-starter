@@ -1,4 +1,4 @@
-module github.com/wpcodevo/golang-gorm-postgres
+module app
 
 go 1.25
 
