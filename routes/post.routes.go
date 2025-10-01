@@ -8,10 +8,10 @@ import (
 )
 
 type PostRouteController struct {
-	postController controllers.PostController
+	postController *controllers.PostController
 }
 
-func NewRoutePostController(postController controllers.PostController) PostRouteController {
+func NewRoutePostController(postController *controllers.PostController) PostRouteController {
 	return PostRouteController{postController}
 }
 

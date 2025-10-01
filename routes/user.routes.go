@@ -8,10 +8,10 @@ import (
 )
 
 type UserRouteController struct {
-	userController controllers.UserController
+	userController *controllers.UserController
 }
 
-func NewRouteUserController(userController controllers.UserController) UserRouteController {
+func NewRouteUserController(userController *controllers.UserController) UserRouteController {
 	return UserRouteController{userController}
 }
 

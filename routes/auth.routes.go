@@ -8,10 +8,10 @@ import (
 )
 
 type AuthRouteController struct {
-	authController controllers.AuthController
+	authController *controllers.AuthController
 }
 
-func NewAuthRouteController(authController controllers.AuthController) AuthRouteController {
+func NewAuthRouteController(authController *controllers.AuthController) AuthRouteController {
 	return AuthRouteController{authController}
 }
 
